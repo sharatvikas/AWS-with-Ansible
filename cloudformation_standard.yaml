@@ -29,27 +29,26 @@ Resources:
         Value: !Ref User
     BlockDeviceMappings:
       - DeviceName: "/dev/sda"
-	Ebs:
-	  VolumeType: "gp2"
-	  Iops: "50"
-	  DeleteOnTermincation: "true"
-	  VolumeSize: "10"
+        Ebs:
+          VolumeType: "gp2"
+          Iops: "50"
+          DeleteOnTermincation: "true"
+          VolumeSize: "10"
 
 Outputs:
-	InstanceID:
-		Description: InstanceID of the Newly Created EC2 Instance
-		Value:
-			Ref: EC2Instance
-	AZ:
-		Description: InstanceID of the Newly Created EC2 Instance
-		Value:
-			Fn::GetAtt:
-			- EC2Instance
-			- AvailabilityZone
-	PrivateIP:
-		Description: PrivateIP of the Newly Created EC2 Instance
-		Value:
-			Fn::GetAtt:
-			- EC2Instance
-			- PrivateIP
-	
+  InstanceID:
+    Description: InstanceID of the Newly Created EC2 Instance
+    Value:
+      Ref: EC2Instance
+  AZ:
+    Description: InstanceID of the Newly Created EC2 Instance
+    Value:
+      Fn::GetAtt:
+        - EC2Instance
+        - AvailabilityZone
+  PrivateIP:
+    Description: PrivateIP of the Newly Created EC2 Instance
+    Value:
+      Fn::GetAtt:
+        - EC2Instance
+        - PrivateIP
