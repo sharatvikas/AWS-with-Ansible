@@ -1,0 +1,48 @@
+---
+
+- name: Install Java
+  become: true
+  become_user: root
+  become_method: sudo
+  yum:
+    name: java-1.8.0-openjdk
+    state: present
+
+- name: Set JAVA_HOME
+  become: true
+  become_user: root
+  become_method: sudo
+  shell: export JAVA_HOME=$PATH:/usr/lib/jvm/{{java}}/jre/bin/java
+
+- name: Install BOTO and AWSCLI
+  become: true
+  become_user: root
+  become_method: sudo
+  shell: curl -O https://bootstrap.pypa.io/get-pip.py; python get-pip.py; pip install boto; pip install awscli
+
+- name: Ansible Pre Requisites
+  become: true
+  become_user: root
+  become_method: sudo
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - python-devel
+    - libffi-devel
+    - gcc
+    - openssl-devel
+
+- name: Install Ansible
+  become: true
+  become_user: root
+  become_method: sudo
+  pip:
+    name: ansible
+    state: latest 
+
+- name: Make Jenkins Directory with 777
+  become: true
+  become_user: root
+  become_method: sudo
+  shell: mkdir /jenkins; chmod -R 777 /jenkins

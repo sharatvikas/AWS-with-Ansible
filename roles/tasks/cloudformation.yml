@@ -1,0 +1,14 @@
+---
+
+- name: Copy CloudFormation Template
+  become: true
+  become_user: root
+  become_method: sudo
+  copy:
+    src: cloudformation_standard.yml
+    dest: /tmp
+
+- name: Create CloudFormation Stack
+  become: true
+  become_user: root
+  become_method: sudo
