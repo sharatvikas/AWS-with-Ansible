@@ -2,54 +2,53 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Cloud Formation Stack for Jenkins Node Instance'
 Parameters:
-	Name:
-		Type: String
-	User:
-		Type: String
-	SGs:
-		Type: List,AWS::EC2::SecurityGroup::Id>
-	InstanceType:
-		Type: String
-	SubnetID:
-		Type: String
-	ImageID:
-		Type: String
+  Name:
+    Type: String
+  User:
+    Type: String
+  SGs:
+    Type: List,AWS::EC2::SecurityGroup::Id>
+  InstanceType:
+    Type: String
+  SubnetID:
+    Type: String
+  ImageID:
+    Type: String
 Resources:
-	EC2Instance:
-		Type: AWS::EC2:Instance
-		Properties:
-			InstanceType: t2.micro
-			ImageID: !Ref ImageID
-			SubnetID: !Ref SubnetID
-			SGs: !Ref SGs
-			Tags:
-			- Key: Name
-			  Value: !Ref Name
-			- Key: User
-			  Value: !Ref User
-		BlockDeviceMappings:
-			- DeviceName: "/dev/sda"
-			  Ebs:
-			  	VolumeType: "gp2"
-			  	Iops: "50"
-			  	DeleteOnTermincation: "true"
-			  	VolumeSize: "10"
+  EC2Instance:
+    Type: AWS::EC2:Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageID: !Ref ImageID
+      SubnetID: !Ref SubnetID
+      SGs: !Ref SGs
+      Tags:
+      - Key: Name
+        Value: !Ref Name
+      - Key: User
+        Value: !Ref User
+    BlockDeviceMappings:
+      - DeviceName: "/dev/sda"
+        Ebs:
+          VolumeType: "gp2"
+          Iops: "50"
+          DeleteOnTermincation: "true"
+          VolumeSize: "10"
 
 Outputs:
-	InstanceID:
-		Description: InstanceID of the Newly Created EC2 Instance
-		Value:
-			Ref: EC2Instance
-	AZ:
-		Description: InstanceID of the Newly Created EC2 Instance
-		Value:
-			Fn::GetAtt:
-			- EC2Instance
-			- AvailabilityZone
-	PrivateIP:
-		Description: PrivateIP of the Newly Created EC2 Instance
-		Value:
-			Fn::GetAtt:
-			- EC2Instance
-			- PrivateIP
-	
+  InstanceID:
+    Description: InstanceID of the Newly Created EC2 Instance
+    Value:
+      Ref: EC2Instance
+  AZ:
+    Description: InstanceID of the Newly Created EC2 Instance
+    Value:
+      Fn::GetAtt:
+        - EC2Instance
+        - AvailabilityZone
+  PrivateIP:
+    Description: PrivateIP of the Newly Created EC2 Instance
+    Value:
+      Fn::GetAtt:
+        - EC2Instance
+        - PrivateIP
