@@ -30,10 +30,10 @@ Resources:
     BlockDeviceMappings:
       - DeviceName: "/dev/sda"
         Ebs:
-          VolumeType: "gp2"
+          VolumeType: "io1"
           Iops: "50"
           DeleteOnTermincation: "true"
-          VolumeSize: "10"
+          VolumeSize: "20"
 
 Outputs:
   InstanceID:
