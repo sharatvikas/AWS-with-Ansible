@@ -1,0 +1,83 @@
+---
+- hosts: all
+  gather_facts: true
+  environment:
+    http_proxy: "http://proxy.ebiz.verizon.com:80"
+    https_proxy: "http://proxy.ebiz.verizon.com:80"
+    no_proxy: "169.254.169.254,verizon.com,vzwcorp.com"
+    socks_proxy: "proxy.ebiz.verizon.com:80"
+
+  vars_files:
+    - my_vars.yml
+
+  tasks:  
+    - name: Install Java
+      become: true
+      become_user: root
+      become_method: sudo
+      yum:
+        name: java-1.8.0-openjdk
+        state: present
+
+    - name: Set JAVA_HOME
+      become: true
+      become_user: root
+      become_method: sudo
+      shell: export JAVA_HOME=$PATH:/usr/lib/jvm/{{java}}/jre/bin/java
+
+    - name: Install BOTO and AWSCLI
+      become: true
+      become_user: root
+      become_method: sudo
+      get_url:
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: /home/ec2-user/
+        mode: 0555
+
+    - name: Install PIP
+      become: true
+      become_user: root
+      become_method: sudo
+      script: get-pip.py
+
+    - name: Install BOTO and AWSCLI
+      become: true
+      become_user: root
+      become_method: sudo
+      pip:
+        name: ['boto','awscli']
+        state: latest
+
+    - name: Ansible Pre Requisites
+      become: true
+      become_user: root
+      become_method: sudo
+      yum:
+        name: ['python-devel','libffi-devel','gcc','openssl-devel']
+        state: latest
+
+    - name: Install Ansible
+      become: true
+      become_user: root
+      become_method: sudo
+      pip:
+        name: ansible
+        state: latest 
+
+    - name: Make App Directory with 777
+      become: true
+      become_user: root
+      become_method: sudo
+      file:
+        path: /app
+        state: directory
+        mode: 0777
+
+    - name: Make Jenkins Directory with 777
+      become: true
+      become_user: root
+      become_method: sudo
+      file: 
+        path: /app/jenkins
+        state: directory
+        mode: 0777
