@@ -1,11 +1,6 @@
 ---
 - hosts: all
   gather_facts: true
-  environment:
-    http_proxy: "http://proxy.ebiz.verizon.com:80"
-    https_proxy: "http://proxy.ebiz.verizon.com:80"
-    no_proxy: "169.254.169.254,verizon.com,vzwcorp.com"
-    socks_proxy: "proxy.ebiz.verizon.com:80"
 
   vars_files:
     - my_vars.yml
